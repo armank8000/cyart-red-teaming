@@ -75,10 +75,4 @@ The complete write-up with all theory, practical outputs, tables, code snippets,
 
 ---
 
-## 🗂️ Screenshots
-
-Add your tool screenshots to the `screenshots/` folder. See `screenshots/README.md` for naming conventions.
-
----
-
 *Submitted via GitHub DM — cyart-red-teaming repository, Week 2 folder.*
