@@ -1,0 +1,47 @@
+title: Suspicious PowerShell Activity
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+status: experimental
+description: Detects suspicious PowerShell command execution that may indicate malicious activity
+author: CYART Apprentice
+date: 2025/08/18
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains:
+      - '-Command'
+      - '-EncodedCommand'
+      - '-Enc'
+      - 'IEX'
+      - 'Invoke-Expression'
+      - 'DownloadString'
+      - 'bypass'
+  condition: selection
+falsepositives:
+  - Legitimate administrative scripts
+  - Software installation routines
+level: medium
+fields:
+  - Image
+  - CommandLine
+  - ParentImage
+  - User
+
+# ─────────────────────────────────────────────
+# HOW TO TEST (in a Windows VM):
+#   powershell -Command "Write-Host Test"
+#
+# HOW TO CONVERT TO ELASTIC/SIEM QUERY:
+#   sigmac -t es-qs -c winlogbeat sigma_rule_powershell.yml
+#
+# MITRE MAPPING:
+#   Tactic  : Execution (TA0002)
+#   Technique: T1059.001 - PowerShell
+# ─────────────────────────────────────────────
